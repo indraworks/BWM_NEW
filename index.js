@@ -4,13 +4,18 @@ const app = express();
 const config = require('./server/config/dev');
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3001;
+
+//routes
+const usersRoute = require('./server/routes/users')
 const rentalRoute = require('./server/routes/rental');
 
 //midleware
 app.use(bodyParser.json());
 
-//models
+//models //sbnarnya tanpa 
 const Rental = require('./server/models/rental');
+
+
 //db
 mongoose.connect(
   config.DB_URI,
@@ -24,8 +29,9 @@ mongoose.connect(
     console.log('db connected');
   }
 );
-//routes
+// api routes
 app.use('/api/v1/rentals', rentalRoute);
+app.use('/api/v1/users', usersRoute)
 
 app.listen(PORT, () => {
   console.log(`server runing on the ${PORT}`);

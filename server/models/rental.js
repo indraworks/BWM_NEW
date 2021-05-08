@@ -23,25 +23,28 @@ const rentalSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-
-
-//kita pakai statucs metodnya karena ada di coletion 
-//kalau metode dia diakses dalam document 
+//kita pakai statucs metodnya karena ada di coletion
+//kalau metode dia diakses dalam document
 //lebih lengkapnya :
 //https://stackoverflow.com/questions/29664499/mongoose-static-methods-vs-instance-methods#:~:text=statics%20are%20the%20methods%20defined,on%20the%20document%20(instance).&text=But%20you%20wouldn't%20do,it%20has%20no%20%22type%22.
 //https://stackoverflow.com/questions/23425303/what-is-the-difference-between-methods-and-statics-in-mongoose
 
+//config terdiir atas status dan detail
+//kit apakai statics gak bisa pakai methodes karena lintas module!
+rentalSchema.statics.sendError = function (res, config) {
+  return res
+    .status(config.status)
+    .send({ errors: [{ title: 'Rental Error' }, { config: config.detail }] });
+};
 
-rentalSchema.statics.sendError = function(res,config) {
-  const {status,detail} = config;
-  return res.status(status)
-  .send({errors:[{title:'Rental Error!'},detail]})
-  
+// rentalSchema.statics.sendError = function(res,config) {
+//   const {status,detail} = config;
+//   return res.status(status)
+//   .send({errors:[{title:'Rental Error!'},detail]})
 
-}
+// }
 
 module.exports = mongoose.model('Rental', rentalSchema);
-
 
 /*
 jadi gini kan kalau tetulus modelnya "Rental" maka pas kita create 

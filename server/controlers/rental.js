@@ -37,9 +37,9 @@ exports.getRentalById = (req, res) => {
       //     { message: 'cant retrieve Data byId' },
       //   ],
       // });
-      return Rental.sendError({
+      return Rental.sendError(res, {
         status: 422,
-        detail: 'cant retrieve data byId',
+        detail: 'cant retrieve rental data',
       });
     }
     return res.json(resultData);
@@ -59,9 +59,9 @@ exports.createRental = (req, res) => {
       //     { message: 'cant Post New RentData' },
       //   ],
       // });
-      return Rental.sendError({
+      return Rental.sendError(res, {
         status: 422,
-        detail: 'Cant Post new rentData!',
+        detail: 'cant create rental data',
       });
     }
     return res.send({

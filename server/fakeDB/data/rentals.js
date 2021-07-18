@@ -1,4 +1,4 @@
-rentals = [
+const rentals = [
   {
     title: 'Nice view on ocean',
     city: 'San Francisco',
@@ -36,4 +36,5 @@ rentals = [
     dailyPrice: 23,
   },
 ];
+
 module.exports = rentals;

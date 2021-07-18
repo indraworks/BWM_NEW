@@ -10,15 +10,11 @@ exports.getAllRental = (req, res) => {
   //kalang bawah adalah dimana pncarian database
   const resultData = Rental.find({}, function (err, resultData) {
     if (err) {
-      // return res.status(422).send({
-      //   error: [
-      //     { title: 'Rental Error!' },
-      //     { message: 'cant retrieve all data Rentals' },
-      //   ],
-      // });
       return Rental.sendError(res, {
-        status: 422,
-        detail: 'cant retrieve all data Rentals',
+        //sendError  func/sttic metod  yg kita buat
+        //diental schame otomatis bisa dipanggil
+        status: 422, //kita pasing no status
+        detail: 'cant retrieve all data Rentals', //kit apasing detail
       });
     }
     return res.send(resultData);
@@ -31,12 +27,6 @@ exports.getRentalById = (req, res) => {
   const { rentalId } = req.params;
   Rental.findOne({ _id: rentalId }, (err, resultData) => {
     if (err) {
-      // return res.status(422).send({
-      //   error: [
-      //     { title: 'Rental Error' },
-      //     { message: 'cant retrieve Data byId' },
-      //   ],
-      // });
       return Rental.sendError(res, {
         status: 422,
         detail: 'cant retrieve rental data',
@@ -49,28 +39,49 @@ exports.getRentalById = (req, res) => {
 exports.createRental = (req, res) => {
   const rentalData = req.body;
 
-  //ada 2 cara add database dari create dan dari new Rental(rentalData) yg ini pada saat save taruh error
-  // taruh error trapingnya Rental.save(error=> {..dst});
-  Rental.create(rentalData, (err, success) => {
-    if (err) {
-      // return res.status(422).send({
-      //   error: [
-      //     { title: 'Rental Error' },
-      //     { message: 'cant Post New RentData' },
-      //   ],
-      // });
-      return Rental.sendError(res, {
-        status: 422,
-        detail: 'cant create rental data',
-      });
-    }
-    return res.send({
-      message: `new rental data wuth id:${rentalData._id} created successfully`,
-    });
-  });
-  Rental.save();
+  //***ini create dari mongoose***
+  // Rental.create(rentalData, (err, createdRental) => {
+  //   if (err) {
+  //     return res.status(422).send({
+  //       errors: [{ title: 'rental Eroror', message: 'Cant Post Rental Data' }],
+  //     });
+  //   }
+  //   return res.json({
+  //     message: `Rental with id : ${createdRental._id} was added`,
+  //   });
+  // });
+  ///***Create Dari model ***////
 };
-//kalau yg sblumnya tampa database maka ari berdasarkan indexnya
+
+//catatan:createdRental: Rental.create(req.body,( jikaError,jikaSuscessresulTercreate)=> {
+//req.body diwakili oleh variable rentalData,jikaError maka kasih res.status(422)
+//jika success :masukan variable jikaSuscessresulTercreate sbgai response json
+
+// exports.createRental = (req, res) => {
+//   const rentalData = req.body;
+
+//   //ada 2 cara add database dari create dan dari new Rental(rentalData) yg ini pada saat save taruh error
+//   // taruh error trapingnya Rental.save(error=> {..dst});
+//   Rental.create(rentalData, (err, success) => {
+//     if (err) {
+//       // return res.status(422).send({
+//       //   error: [
+//       //     { title: 'Rental Error' },
+//       //     { message: 'cant Post New RentData' },
+//       //   ],
+//       // });
+//       return Rental.sendError(res, {
+//         status: 422,
+//         detail: 'cant create rental data',
+//       });
+//     }
+//     return res.send({
+//       message: `new rental data wuth id:${rentalData._id} created successfully`,
+//     });
+//   });
+//   Rental.save();
+// };
+//kalau yg sblumnya tampa database maka cari berdasarkan indexnya
 //nah skrg cari didatabase berdasarkan idmya
 exports.updateRental = (req, res) => {
   const { Id } = req.params;
@@ -96,7 +107,8 @@ semua error handler res.status(422) karena sama kita pindahkan di modles/rental.
 
 */
 
-/*
+/* INI CATATAN KETIKA RENTAL masih blum di masukan database datanya 
+masih di tarun di file data.js
 // 
 //karn sudha pake model maka ini kita marking 
 //jadi kita ambil data rentals dari daabase

@@ -17,6 +17,10 @@ router.get('/:rentalId', getRentalById);
 
 // // add Rental
 router.post('/', createRental);
+//bisa di tulis semuanya sperti ini :
+/*
+router.route('/').get(createRental).post(createRental)
+*/
 
 // //delete rental cari index dari id dan delete
 // router.delete('/:Id', deleteRental);

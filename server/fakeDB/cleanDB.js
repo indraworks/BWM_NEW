@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const config = require('../config/dev');
-const FakeDB = require('./FakeDB');
+const ReCreateDB = require('./ReCreateDB');
 
 mongoose.connect(
   config.DB_URI,
@@ -11,10 +11,11 @@ mongoose.connect(
     useFindAndModify: true,
   },
   async () => {
-    const fakeDB = new FakeDB();
-    console.log('starting populatng DB');
-    await fakeDB.populate(); //cleanup db dan create db yg baru /add
-    await mongoose.connection.close(); //close kluar dari mongodb
-    console.log('DB has been populate');
+    const recreateDB = new ReCreateDB(); //instansiate class
+    console.log('Starting populate db');
+
+    await recreateDB.populate(); //panggil methodenya
+    await mongoose.connection.close();
+    console.log('DB has been populate ');
   }
 );
